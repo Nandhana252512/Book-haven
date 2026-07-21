@@ -1,0 +1,407 @@
+<html data-type="html" data-identifier="a1b2c3d4-e5f6-7890-abcd-ef1234567890" data-title="checkout.html – EmailJS Fixed" data-version="9" width="1200" height="700"><head>
+<!-- ✅ Step 1: Load EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- ✅ Step 2: Initialize IMMEDIATELY — THIS WAS MISSING! -->
+<script>
+  (function(){
+    emailjs.init({
+      publicKey: "Qzg2f-eqe5vA_t4ay",
+    });
+    console.log("✅ EmailJS Initialized!");
+  })();
+</script>
+</head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif;">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#f1f5f9;}
+  .navbar{background:#1e1b4b;padding:14px 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15);}
+  .container{max-width:1100px;margin:0 auto;padding:0 20px;}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;}
+  .brand{color:#fff;font-size:18px;font-weight:bold;text-decoration:none;}
+  .nav-links{display:flex;gap:16px;list-style:none;}
+  .nav-links a{color:rgba(255,255,255,.7);font-size:14px;text-decoration:none;}
+  .nav-links a:hover{color:#fff;}
+  .btn{display:inline-block;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:bold;text-decoration:none;cursor:pointer;border:none;font-family:Arial,sans-serif;transition:.2s;}
+  .btn-brand{background:linear-gradient(90deg,#7c3aed,#ec4899);color:#fff;}
+  .btn-outline{background:transparent;border:1.5px solid #ddd6fe;color:#7c3aed;}
+  .btn-outline:hover{background:#faf8ff;}
+  .btn-danger{background:#ef4444;color:#fff;}
+  .btn-lg{padding:14px 28px;font-size:15px;}
+  .btn-block{width:100%;text-align:center;}
+  main{padding:40px 0;}
+  .grid{display:flex;gap:24px;align-items:flex-start;}
+  .col-main{flex:1;}
+  .col-side{width:320px;flex-shrink:0;}
+  .card{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .user-strip{background:linear-gradient(90deg,#f5f3ff,#fdf2f8);border:1.5px solid #ede9fe;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+  .user-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#ec4899);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:bold;color:#fff;flex-shrink:0;}
+  .user-info-name{font-size:15px;font-weight:bold;color:#1e1b4b;}
+  .user-info-sub{font-size:12px;color:#9ca3af;}
+  .section-title{font-size:20px;font-weight:bold;color:#1e1b4b;margin:0 0 6px;}
+  .muted{color:#6b7280;font-size:13px;}
+  .badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
+  .badge-primary{background:#ede9fe;color:#7c3aed;}
+  .steps{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0;}
+  .step-pill{background:#f9fafb;border:1.5px solid #f3f4f6;border-radius:10px;padding:10px 14px;}
+  .step-pill .lbl{font-size:11px;color:#9ca3af;}
+  .step-pill .val{font-size:13px;font-weight:bold;color:#1e1b4b;}
+  .empty-box{background:#f9fafb;border:1.5px dashed #e5e7eb;border-radius:12px;padding:44px;text-align:center;display:none;}
+  .empty-icon{font-size:40px;display:block;margin-bottom:10px;}
+  .cart-item{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #f3f4f6;border-radius:12px;padding:14px;margin-bottom:10px;transition:border-color .2s,box-shadow .2s;}
+  .cart-item:hover{border-color:#ddd6fe;box-shadow:0 4px 12px rgba(124,58,237,.08);}
+  .cart-item img{width:60px;height:78px;object-fit:cover;border-radius:8px;flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,.1);}
+  .cart-item-info{flex:1;}
+  .cart-item-info h4{margin:0 0 4px;font-size:15px;font-weight:bold;color:#111827;}
+  .cart-item-info p{margin:0;font-size:12px;color:#6b7280;}
+  .cart-item-price{font-size:17px;font-weight:bold;background:linear-gradient(90deg,#7c3aed,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;flex-shrink:0;}
+  .cart-item-remove{background:none;border:1.5px solid #fca5a5;color:#ef4444;font-size:12px;cursor:pointer;padding:6px 10px;border-radius:6px;flex-shrink:0;transition:.2s;}
+  .cart-item-remove:hover{background:#ef4444;color:#fff;}
+  .summary-box{background:#fff;border-radius:16px;padding:26px;position:sticky;top:80px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .summary-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:14px;}
+  .summary-row span{color:#6b7280;}
+  .summary-row strong{color:#111827;}
+  .summary-total{display:flex;justify-content:space-between;align-items:center;padding:14px 0 0;font-size:16px;font-weight:bold;}
+  .summary-total span{color:#111827;}
+  .summary-total strong{font-size:22px;background:linear-gradient(90deg,#7c3aed,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .divider{border:none;border-top:1.5px solid #f3f4f6;margin:10px 0;}
+  .promo-row{display:flex;gap:8px;margin-bottom:8px;}
+  .promo-row input{flex:1;background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:10px 14px;color:#111827;font-size:13px;outline:none;}
+  .promo-row input:focus{border-color:#7c3aed;}
+  .promo-msg{font-size:12px;min-height:18px;margin-bottom:8px;}
+  .promo-msg.ok{color:#16a34a;}.promo-msg.err{color:#ef4444;}
+  .info-box{background:#f9fafb;border:1.5px solid #f3f4f6;border-radius:10px;padding:13px 16px;margin-top:12px;}
+  .info-box .lbl{font-size:11px;color:#9ca3af;margin-bottom:2px;}
+  .info-box .val{font-size:13px;font-weight:bold;color:#1e1b4b;}
+  #overlay{display:none;position:fixed;inset:0;background:rgba(15,10,40,.95);z-index:9999;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
+  #overlay.show{display:flex;}
+  .ov-icon{font-size:72px;margin-bottom:20px;animation:pop .4s ease;}
+  .ov-name{font-size:14px;color:#c4b5fd;margin-bottom:6px;letter-spacing:.5px;}
+  .ov-title{font-size:26px;font-weight:bold;color:#f0fdf4;margin-bottom:8px;}
+  .ov-sub{font-size:14px;color:#86efac;margin-bottom:16px;}
+  .ov-email-status{font-size:13px;margin-bottom:20px;padding:10px 24px;border-radius:20px;transition:all .3s;}
+  .ov-email-status.sending{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:#fbbf24;}
+  .ov-email-status.sent{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80;}
+  .ov-email-status.failed{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;}
+  .ov-bar-wrap{width:260px;height:6px;background:#1e293b;border-radius:10px;overflow:hidden;}
+  .ov-bar{height:100%;background:linear-gradient(90deg,#7c3aed,#ec4899,#f59e0b);border-radius:10px;width:0;transition:width 2.5s linear;}
+  .ov-note{margin-top:14px;font-size:12px;color:#6b7280;}
+  @keyframes pop{0%{transform:scale(.5);opacity:0}80%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+  .demo-bar{background:#1e1b4b;border-bottom:1px solid rgba(255,255,255,.1);padding:10px 0;text-align:center;font-size:12px;color:rgba(255,255,255,.6);}
+  .demo-bar button,.demo-bar select{margin:0 5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e9d5ff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;}
+  footer{background:#1e1b4b;text-align:center;padding:20px;margin-top:40px;}
+  footer p{margin:0;color:rgba(255,255,255,.4);font-size:13px;}
+  @media(max-width:768px){.grid{flex-direction:column;}.col-side{width:100%;}.nav-links{display:none;}}
+</style>
+
+<!-- DEMO BAR -->
+<div class="demo-bar">
+  🧪 Simulate user &amp; cart:
+  <select id="demoUser">
+    <option value="">-- Select User --</option>
+    <option value="{&quot;firstName&quot;:&quot;Rahul&quot;,&quot;lastName&quot;:&quot;Sharma&quot;,&quot;email&quot;:&quot;rahul@email.com&quot;}">Rahul Sharma</option>
+    <option value="{&quot;firstName&quot;:&quot;Priya&quot;,&quot;lastName&quot;:&quot;Patel&quot;,&quot;email&quot;:&quot;priya@email.com&quot;}">Priya Patel</option>
+    <option value="{&quot;firstName&quot;:&quot;Arjun&quot;,&quot;lastName&quot;:&quot;Mehta&quot;,&quot;email&quot;:&quot;arjun@email.com&quot;}">Arjun Mehta</option>
+    <option value="{&quot;firstName&quot;:&quot;Sneha&quot;,&quot;lastName&quot;:&quot;Kapoor&quot;,&quot;email&quot;:&quot;sneha@email.com&quot;}">Sneha Kapoor</option>
+  </select>
+  <button id="demoAdd1">+ Summer I Turned Pretty ₹600</button>
+  <button id="demoAdd2">+ Harry Potter ₹500</button>
+  <button id="demoAdd3">+ The Alchemist ₹350</button>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">📖 Book Haven v3</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="checkout.html" style="color:#e9d5ff;font-weight:bold;">Checkout</a></li>
+        <li><a href="wishlist.html">Wishlist</a></li>
+      </ul>
+      <a href="catalog.html" class="btn btn-brand" style="font-size:13px;padding:8px 16px;">Continue Shopping</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="grid">
+      <div class="col-main">
+        <div class="card" style="padding:28px;">
+          <div class="user-strip" id="userStrip" style="display:none;">
+            <div class="user-avatar" id="stripAvatar">?</div>
+            <div>
+              <div class="user-info-name" id="stripName">Loading...</div>
+              <div class="user-info-sub" id="stripEmail">Loading...</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+            <div>
+              <h1 class="section-title">Your Cart</h1>
+              <p class="muted">Review your selected books before placing the order.</p>
+            </div>
+            <span class="badge badge-primary">Items: <span id="count">0</span></span>
+          </div>
+          <div class="steps">
+            <div class="step-pill"><div class="lbl">Step 1</div><div class="val">Review cart</div></div>
+            <div class="step-pill"><div class="lbl">Step 2</div><div class="val">Apply promo</div></div>
+            <div class="step-pill"><div class="lbl">Step 3</div><div class="val">Enjoy your books</div></div>
+          </div>
+          <div id="emptyState" class="empty-box">
+            <span class="empty-icon">🛒</span>
+            <h2 style="font-size:17px;color:#1e1b4b;margin:0 0 6px;">Your cart is empty</h2>
+            <p class="muted">Add books from the catalog to continue.</p>
+            <a href="catalog.html" class="btn btn-brand" style="margin-top:14px;display:inline-block;">Browse Catalog</a>
+          </div>
+          <div id="cart-list"></div>
+        </div>
+      </div>
+      <div class="col-side">
+        <div class="summary-box">
+          <h2 style="font-size:17px;font-weight:bold;color:#1e1b4b;margin:0 0 18px;">Order Summary</h2>
+          <label style="font-size:12px;color:#6b7280;display:block;margin-bottom:6px;">Promo Code</label>
+          <div class="promo-row">
+            <input type="text" id="promoInput" placeholder="READ10 or BOOK20">
+            <button class="btn btn-outline" id="applyPromoBtn" style="padding:10px 14px;font-size:13px;">Apply</button>
+          </div>
+          <p id="promoMsg" class="promo-msg"></p>
+          <div class="summary-row"><span>Subtotal</span><strong>₹<span id="subtotalEl">0</span></strong></div>
+          <div class="summary-row"><span>Discount</span><strong style="color:#16a34a;">− ₹<span id="discountEl">0</span></strong></div>
+          <div class="summary-row"><span>Delivery</span><strong style="color:#16a34a;">Free</strong></div>
+          <div class="summary-row"><span>Books in cart</span><strong><span id="itemCountLabel">0</span></strong></div>
+          <hr class="divider">
+          <div class="summary-total"><span>Total</span><strong>₹<span id="grandTotal">0</span></strong></div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+            <button class="btn btn-brand btn-lg btn-block" id="placeOrderBtn">🛒 Place Order</button>
+            <button class="btn btn-danger btn-block" id="clearCartBtn">Clear Cart</button>
+            <a href="catalog.html" class="btn btn-outline btn-block">Back to Catalog</a>
+          </div>
+          <div class="info-box"><div class="lbl">🔒 Secure checkout</div><div class="val">Fast, simple, mobile-friendly</div></div>
+          <div class="info-box" style="margin-top:8px;"><div class="lbl">🎟️ Bonus</div><div class="val">READ10 or BOOK20 for discounts</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="overlay">
+  <div class="ov-icon">✅</div>
+  <div class="ov-name" id="ovName"></div>
+  <div class="ov-title">Order Placed Successfully!</div>
+  <div class="ov-sub">Your books are on their way 📦</div>
+  <div class="ov-email-status sending" id="emailStatus">📧 Sending confirmation email...</div>
+  <div class="ov-bar-wrap"><div class="ov-bar" id="ovBar"></div></div>
+  <div class="ov-note" id="ovNote">Please wait...</div>
+</div>
+
+<footer><div class="container"><p>© 2026 Book Haven v3</p></div></footer>
+
+<script>
+  // ✅ ALL 3 KEYS — already initialized in <head>
+  var EMAILJS_SERVICE_ID  = "service_17qzqxc";
+  var EMAILJS_TEMPLATE_ID = "template_gfd8f7s";
+
+  var CART_KEY="cart", USER_KEY="bookHavenUser", ORDER_KEY="lastOrder";
+  var PROMOS={READ10:10, BOOK20:20};
+  var discountPct=0, appliedCode="";
+
+  function getCart()     { return JSON.parse(localStorage.getItem(CART_KEY))||[]; }
+  function saveCart(c)   { localStorage.setItem(CART_KEY,JSON.stringify(c)); }
+  function getUser()     { return JSON.parse(localStorage.getItem(USER_KEY))||null; }
+  function getSubtotal(c){ return c.reduce(function(s,i){return s+(parseFloat(i.price)*(i.qty||1));},0); }
+
+  function renderUserStrip(){
+    var u=getUser(); if(!u) return;
+    document.getElementById("userStrip").style.display="flex";
+    document.getElementById("stripAvatar").textContent=((u.firstName||"?")[0]+(u.lastName||"")[0]).toUpperCase();
+    document.getElementById("stripName").textContent=u.firstName+" "+u.lastName;
+    document.getElementById("stripEmail").textContent=u.email||"";
+  }
+
+  function updateSummary(cart){
+    var sub=getSubtotal(cart), disc=Math.round(sub*discountPct/100);
+    document.getElementById("subtotalEl").textContent=sub;
+    document.getElementById("discountEl").textContent=disc;
+    document.getElementById("grandTotal").textContent=sub-disc;
+    document.getElementById("count").textContent=cart.length;
+    document.getElementById("itemCountLabel").textContent=cart.length;
+  }
+
+  function renderCart(){
+    var cart=getCart(), listEl=document.getElementById("cart-list");
+    var emptyEl=document.getElementById("emptyState");
+    listEl.innerHTML="";
+    if(cart.length===0){ emptyEl.style.display="block"; updateSummary([]); return; }
+    emptyEl.style.display="none";
+    cart.forEach(function(item,i){
+      var d=document.createElement("div"); d.className="cart-item";
+      d.innerHTML='<img src="'+(item.image||"")+'" alt="'+item.name+'" onerror="this.style.display=\'none\'"/>'+
+        '<div class="cart-item-info"><h4>'+item.name+'</h4>'+
+        '<p>'+(item.category||"Book")+' · Paperback · Qty: '+(item.qty||1)+'</p></div>'+
+        '<span class="cart-item-price">₹'+item.price+'</span>'+
+        '<button class="cart-item-remove" data-i="'+i+'">✕ Remove</button>';
+      listEl.appendChild(d);
+    });
+    listEl.querySelectorAll(".cart-item-remove").forEach(function(btn){
+      btn.addEventListener("click",function(){
+        var c=getCart(); c.splice(parseInt(btn.dataset.i),1); saveCart(c); renderCart();
+      });
+    });
+    updateSummary(cart);
+  }
+
+  document.getElementById("applyPromoBtn").addEventListener("click",function(){
+    var code=document.getElementById("promoInput").value.trim().toUpperCase();
+    var msg=document.getElementById("promoMsg");
+    if(PROMOS[code]){
+      discountPct=PROMOS[code]; appliedCode=code;
+      msg.textContent="✅ "+discountPct+"% off!"; msg.className="promo-msg ok";
+    } else {
+      discountPct=0; appliedCode="";
+      msg.textContent="❌ Try READ10 or BOOK20"; msg.className="promo-msg err";
+    }
+    updateSummary(getCart());
+  });
+
+  document.getElementById("clearCartBtn").addEventListener("click",function(){
+    saveCart([]); renderCart();
+  });
+
+  function buildItemsHTML(cart){
+    return cart.map(function(item,i){
+      var bg=i%2===0?"#fff8f0":"#f0fdf4";
+      var bd=i%2===0?"#fed7aa":"#bbf7d0";
+      var cl=i%2===0?"#d97706":"#059669";
+      return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px;">'+
+        '<tr><td style="background:'+bg+';border:1px solid '+bd+';border-radius:10px;padding:12px;">'+
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>'+
+        (item.image
+          ? '<td style="width:54px;vertical-align:top;padding-right:12px;"><img src="'+item.image+'" width="50" height="66" style="border-radius:7px;display:block;" alt="'+item.name+'"/></td>'
+          : '<td style="width:44px;text-align:center;font-size:28px;">📚</td>')+
+        '<td style="vertical-align:middle;">'+
+          '<div style="font-size:10px;font-weight:700;color:'+cl+';text-transform:uppercase;margin-bottom:3px;">'+item.category+'</div>'+
+          '<div style="font-size:14px;font-weight:700;color:#1c1917;margin-bottom:3px;">'+item.name+'</div>'+
+          '<div style="font-size:11px;color:#6b7280;">Paperback · Qty: '+(item.qty||1)+'</div>'+
+        '</td>'+
+        '<td align="right" style="vertical-align:middle;font-size:17px;font-weight:700;color:#059669;">&#8377;'+item.price+'</td>'+
+        '</tr></table></td></tr></table>';
+    }).join("");
+  }
+
+  document.getElementById("placeOrderBtn").addEventListener("click",function(){
+    var cart=getCart();
+    if(cart.length===0){ alert("Your cart is empty!"); return; }
+
+    var user     = getUser();
+    var firstName= user ? (user.firstName||"Valued")  : "Valued";
+    var lastName = user ? (user.lastName ||"Customer") : "Customer";
+    var email    = user ? (user.email    ||"")         : "";
+    var fullName = (firstName+" "+lastName).trim();
+
+    var sub      = getSubtotal(cart);
+    var discount = Math.round(sub * discountPct / 100);
+    var grand    = sub - discount;
+
+    var orderId  = "#BHV3-"+new Date().getFullYear()+
+                   ("0"+(new Date().getMonth()+1)).slice(-2)+
+                   ("0"+new Date().getDate()).slice(-2)+"-"+
+                   Math.floor(1000+Math.random()*9000);
+
+    var orderDate = new Date().toLocaleDateString("en-IN",
+                    {year:"numeric",month:"long",day:"numeric"});
+
+    var eta1=new Date(); eta1.setDate(eta1.getDate()+2);
+    var eta2=new Date(); eta2.setDate(eta2.getDate()+3);
+    var eta = eta1.toLocaleDateString("en-IN",{month:"short",day:"numeric"})+" – "+
+              eta2.toLocaleDateString("en-IN",{month:"short",day:"numeric",year:"numeric"});
+
+    // Save order snapshot
+    localStorage.setItem(ORDER_KEY, JSON.stringify({
+      orderId, orderDate,
+      customer:{ firstName, lastName, email },
+      items:cart, subtotal:sub, discount,
+      promoCode:appliedCode||"None", grandTotal:grand
+    }));
+
+    // Show overlay
+    document.getElementById("ovName").textContent = "Hey "+firstName+"! 🎉";
+    document.getElementById("overlay").classList.add("show");
+    setTimeout(function(){ document.getElementById("ovBar").style.width="100%"; }, 100);
+
+    if(email){
+      document.getElementById("emailStatus").textContent = "📧 Sending to "+email+"...";
+      document.getElementById("emailStatus").className  = "ov-email-status sending";
+
+      // ✅ FIXED: emailjs.init() called in <head>
+      // ✅ No need to pass public key as 4th argument now
+      emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          to_name:    fullName,
+          to_email:   email,
+          order_id:   orderId,
+          order_date: orderDate,
+          items_list: buildItemsHTML(cart),
+          subtotal:   "₹"+sub,
+          discount:   "₹"+discount,
+          promo_code: appliedCode||"None",
+          grand_total:"₹"+grand,
+          eta:        eta,
+          shop_url:   "https://yourdomain.com/catalog.html"
+        }
+      )
+      .then(function(res){
+        console.log("✅ Email sent! Status:", res.status, res.text);
+        document.getElementById("emailStatus").textContent = "✅ Email sent to "+email+"!";
+        document.getElementById("emailStatus").className  = "ov-email-status sent";
+        document.getElementById("ovNote").textContent     = "Redirecting to confirmation...";
+      })
+      .catch(function(err){
+        console.error("❌ EmailJS Error:", err);
+        var msg = "❌ ";
+        if(err.status===412)      msg += "Gmail not connected! Reconnect in EmailJS dashboard.";
+        else if(err.status===401) msg += "Invalid Public Key!";
+        else if(err.status===400) msg += "Error 400: "+err.text;
+        else                      msg += JSON.stringify(err);
+        document.getElementById("emailStatus").textContent = msg;
+        document.getElementById("emailStatus").className  = "ov-email-status failed";
+        document.getElementById("ovNote").textContent     = "Redirecting anyway...";
+      });
+
+    } else {
+      document.getElementById("emailStatus").textContent = "⚠️ No email — sign up first!";
+      document.getElementById("emailStatus").className  = "ov-email-status failed";
+    }
+
+    saveCart([]);
+    setTimeout(function(){
+      window.location.href = "email-order-confirmation.html";
+    }, 3500);
+  });
+
+  // Demo buttons
+  var demoBooks=[
+    {name:"The Summer I Turned Pretty",price:600,image:"https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=200&q=80",category:"Fiction",qty:1},
+    {name:"Harry Potter",price:500,image:"https://images.unsplash.com/photo-1618944847023-38aa001235f0?auto=format&fit=crop&w=200&q=80",category:"Fiction",qty:1},
+    {name:"The Alchemist",price:350,image:"https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=200&q=80",category:"Growth",qty:1}
+  ];
+  [1,2,3].forEach(function(n){
+    document.getElementById("demoAdd"+n).addEventListener("click",function(){
+      var c=getCart(), b=demoBooks[n-1];
+      var idx=c.findIndex(function(i){ return i.name===b.name; });
+      if(idx>-1){ c[idx].qty=(c[idx].qty||1)+1; } else { c.push(Object.assign({},b)); }
+      saveCart(c); renderCart();
+    });
+  });
+  document.getElementById("demoUser").addEventListener("change",function(){
+    if(this.value){ localStorage.setItem(USER_KEY,this.value); renderUserStrip(); }
+  });
+
+  renderUserStrip();
+  renderCart();
+</script>
+
+</body></html>

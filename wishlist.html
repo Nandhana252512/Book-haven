@@ -1,0 +1,82 @@
+<html data-type="html" data-identifier="a1e133b9-e179-4421-b3d1-1b1178b9ff06" data-title="wishlist.html – White Theme" data-version="1" width="1200" height="700"><head></head><body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif;">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#f1f5f9;color:#111827;}
+  .navbar{background:#1e1b4b;padding:14px 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15);}
+  .container{max-width:1140px;margin:0 auto;padding:0 20px;}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .brand{color:#fff;font-size:18px;font-weight:bold;text-decoration:none;}
+  .btn{display:inline-block;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:bold;text-decoration:none;cursor:pointer;border:none;font-family:Arial,sans-serif;transition:.2s;}
+  .btn-brand{background:linear-gradient(90deg,#7c3aed,#ec4899);color:#fff;}
+  .btn-danger{background:#ef4444;color:#fff;}
+  .btn-danger:hover{background:#dc2626;}
+
+  .card{background:#fff;border-radius:16px;padding:32px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .empty-box{background:#f9fafb;border:2px dashed #e5e7eb;border-radius:14px;padding:60px 20px;text-align:center;}
+  .thumb{width:100%;height:180px;object-fit:cover;border-radius:10px;display:block;margin-bottom:14px;}
+  .book-card{background:#fff;border-radius:14px;padding:14px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);border:1.5px solid #f3f4f6;
+    transition:transform .2s,box-shadow .2s;height:100%;}
+  .book-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(124,58,237,.1);}
+  .wishlist-heart{color:#ec4899;font-size:18px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+
+  footer{background:#1e1b4b;text-align:center;padding:20px;margin-top:40px;}
+  footer p{margin:0;color:rgba(255,255,255,.4);font-size:13px;}
+  @media(max-width:768px){.grid-3{grid-template-columns:repeat(2,1fr);}}.
+  @media(max-width:500px){.grid-3{grid-template-columns:1fr;}}
+</style>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">📖 Book Haven v3</a>
+      <div style="display:flex;gap:10px;">
+        <a href="catalog.html" class="btn btn-brand" style="font-size:13px;padding:8px 16px;">Back to Catalog</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="container" style="padding:40px 20px;">
+  <div class="card">
+    <h1 style="font-size:26px;font-weight:bold;color:#1e1b4b;margin-bottom:6px;">🤍 Your Wishlist</h1>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:28px;">Books you loved or want to buy later.</p>
+    <div id="wishlistList" class="grid-3"></div>
+  </div>
+</main>
+
+<footer><div class="container"><p>© 2026 Book Haven v3</p></div></footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+  var wishlistList = document.getElementById("wishlistList");
+  var wishlistData = JSON.parse(localStorage.getItem("wishlist")) || [];
+  function renderWishlist() {
+    if (wishlistData.length === 0) {
+      wishlistList.innerHTML = '<div style="grid-column:1/-1;"><div class="empty-box"><div style="font-size:48px;margin-bottom:14px;">🤍</div><h2 style="font-size:18px;color:#1e1b4b;margin-bottom:8px;">Your wishlist is empty</h2><p style="color:#6b7280;font-size:14px;margin-bottom:18px;">Add books from the catalog to save them here.</p><a href="catalog.html" class="btn btn-brand">Browse Catalog</a></div></div>';
+      return;
+    }
+    wishlistList.innerHTML = wishlistData.map(function(book, i) {
+      return '<div class="book-card">'+
+        '<img class="thumb" src="'+book.image+'" alt="'+book.name+'"/>'+
+        '<h3 style="font-size:15px;font-weight:bold;color:#1e1b4b;margin-bottom:4px;">'+book.name+'</h3>'+
+        '<p style="font-size:12px;color:#6b7280;margin-bottom:10px;">'+book.category+'</p>'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'+
+        '<strong style="color:#7c3aed;font-size:16px;">₹'+book.price+'</strong>'+
+        '<span class="wishlist-heart">♥</span></div>'+
+        '<button class="btn btn-danger" style="width:100%;font-size:13px;padding:8px;" data-index="'+i+'">Remove</button>'+
+        '</div>';
+    }).join("");
+    wishlistList.querySelectorAll("[data-index]").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        wishlistData.splice(parseInt(btn.dataset.index), 1);
+        localStorage.setItem("wishlist", JSON.stringify(wishlistData));
+        renderWishlist();
+      });
+    });
+  }
+  renderWishlist();
+</script>
+
+</body></html>

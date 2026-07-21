@@ -1,0 +1,469 @@
+<html data-type="html" data-identifier="f3a2dece-300e-4dde-a819-a17fd9be56ad" data-title="email-order-confirmation.html – Fully Dynamic" data-version="6" width="700" height="1000"><head></head><body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif;">
+<style>
+  @keyframes fadeUp {from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pop    {0%{transform:scale(.4);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+  @keyframes pulse  {0%,100%{opacity:1}50%{opacity:.4}}
+  @keyframes float  {0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#f1f5f9;}
+  .wrap{background:#f1f5f9;padding:32px 12px;min-height:100vh;}
+  .card{max-width:620px;margin:0 auto;background:#fff;border-radius:24px;overflow:hidden;
+        box-shadow:0 4px 6px rgba(0,0,0,.05),0 20px 60px rgba(0,0,0,.08);}
+  .topbar{background:#fff;padding:16px 28px;display:flex;align-items:center;
+          justify-content:space-between;border-bottom:2px solid #f1f5f9;}
+  .topbar-brand{font-size:17px;font-weight:bold;color:#1e1b4b;}
+  .topbar-link{font-size:12px;font-weight:bold;text-decoration:none;letter-spacing:.5px;
+    background:linear-gradient(90deg,#7c3aed,#db2777);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero{position:relative;overflow:hidden;padding:52px 32px 44px;text-align:center;
+        background:linear-gradient(135deg,#7c3aed 0%,#a855f7 40%,#ec4899 70%,#f59e0b 100%);}
+  .hero-dots{position:absolute;inset:0;opacity:.08;
+    background-image:radial-gradient(circle,#fff 1px,transparent 1px);
+    background-size:22px 22px;pointer-events:none;}
+  .hero-shine{position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+    width:300px;height:300px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.22),transparent 70%);pointer-events:none;}
+  .hero-ring{width:96px;height:96px;border-radius:50%;margin:0 auto 20px;background:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:44px;
+    box-shadow:0 0 0 10px rgba(255,255,255,.2),0 0 0 22px rgba(255,255,255,.1);animation:pop .5s ease;}
+  .greeting-chip{display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);
+    border-radius:30px;padding:7px 18px;margin-bottom:14px;animation:fadeUp .4s .05s both;}
+  .greeting-chip span{font-size:13px;color:#fff;font-weight:bold;}
+  .hero-badge{display:inline-block;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);
+    color:#fff;font-size:10px;letter-spacing:2px;text-transform:uppercase;
+    padding:5px 16px;border-radius:20px;margin-bottom:12px;font-weight:bold;}
+  .hero-title{font-size:28px;font-weight:bold;color:#fff;line-height:1.25;margin-bottom:12px;
+    text-shadow:0 2px 12px rgba(0,0,0,.15);animation:fadeUp .5s .1s both;}
+  .hero-sub{font-size:14px;color:rgba(255,255,255,.88);line-height:1.7;margin-bottom:28px;animation:fadeUp .5s .2s both;}
+  .order-pill{display:inline-flex;align-items:center;gap:10px;
+    background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);
+    border-radius:40px;padding:10px 22px;backdrop-filter:blur(4px);animation:fadeUp .5s .3s both;}
+  .order-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.5s infinite;}
+  .order-lbl{font-size:11px;color:rgba(255,255,255,.8);letter-spacing:.5px;}
+  .order-id{font-size:13px;font-weight:bold;color:#fff;}
+
+  /* CUSTOMER CARD */
+  .cust-card{margin:24px 24px 0;border-radius:16px;overflow:hidden;
+    border:1.5px solid #ede9fe;box-shadow:0 2px 12px rgba(124,58,237,.08);}
+  .cust-header{background:linear-gradient(90deg,#7c3aed,#a855f7);padding:12px 20px;
+    display:flex;align-items:center;gap:8px;}
+  .cust-header-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#fff;font-weight:bold;}
+  .cust-body{background:#faf8ff;padding:18px 20px;}
+  .cust-avatar{width:50px;height:50px;border-radius:50%;flex-shrink:0;
+    background:linear-gradient(135deg,#7c3aed,#ec4899);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:bold;color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.3);}
+  .cust-name{font-size:19px;font-weight:bold;
+    background:linear-gradient(90deg,#7c3aed,#ec4899);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .cust-fl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;margin-bottom:3px;}
+  .cust-fv{font-size:13px;font-weight:600;color:#374151;}
+
+  /* SEC */
+  .sec{padding:24px 24px 0;}
+  .sec-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;
+    margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+  .sec-lbl::after{content:'';flex:1;height:1.5px;background:linear-gradient(90deg,currentColor,transparent);opacity:.3;}
+
+  /* TRACKER */
+  .tracker-wrap{background:linear-gradient(90deg,#faf8ff,#fff0f6);
+    padding:22px 24px 24px;border-top:1.5px solid #f3f4f6;border-bottom:1.5px solid #f3f4f6;margin-top:24px;}
+  .tracker{display:flex;align-items:flex-start;}
+  .t-step{flex:1;text-align:center;}
+  .t-icon{width:38px;height:38px;border-radius:50%;margin:0 auto 7px;
+    display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .t-icon.done{background:linear-gradient(135deg,#16a34a,#4ade80);box-shadow:0 4px 12px rgba(74,222,128,.4);color:#fff;}
+  .t-icon.active{background:linear-gradient(135deg,#7c3aed,#ec4899);box-shadow:0 4px 16px rgba(124,58,237,.4);animation:pulse 2s infinite;}
+  .t-icon.todo{background:#f3f4f6;border:1.5px solid #e5e7eb;color:#9ca3af;}
+  .t-lbl{font-size:10px;font-weight:bold;}
+  .t-lbl.done{color:#16a34a;}.t-lbl.act{color:#7c3aed;}.t-lbl.td{color:#9ca3af;}
+  .t-line{flex:1;height:2px;margin-top:19px;border-radius:2px;}
+  .t-line.full{background:linear-gradient(90deg,#4ade80,#7c3aed);}
+  .t-line.half{background:linear-gradient(90deg,#7c3aed 50%,#e5e7eb 50%);}
+  .t-line.none{background:#e5e7eb;}
+
+  /* DYNAMIC BOOK ROWS */
+  .book-row{display:flex;gap:14px;align-items:center;border-radius:14px;
+    padding:14px;margin-bottom:12px;transition:transform .2s,box-shadow .2s;}
+  .book-row:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.07);}
+  .book-row:nth-child(odd){background:#fdf4ff;border:1.5px solid #e9d5ff;}
+  .book-row:nth-child(even){background:#eff6ff;border:1.5px solid #bfdbfe;}
+  .book-img{width:60px;height:80px;border-radius:10px;object-fit:cover;flex-shrink:0;
+    box-shadow:0 4px 14px rgba(0,0,0,.12);}
+  .book-img-placeholder{width:60px;height:80px;border-radius:10px;flex-shrink:0;
+    background:linear-gradient(135deg,#ede9fe,#fce7f3);
+    display:flex;align-items:center;justify-content:center;font-size:28px;}
+  .book-meta{flex:1;}
+  .book-tag{font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:bold;margin-bottom:4px;}
+  .book-name{font-size:15px;font-weight:bold;color:#111827;margin-bottom:4px;}
+  .book-detail{font-size:12px;color:#6b7280;}
+  .book-price{font-size:20px;font-weight:bold;flex-shrink:0;
+    background:linear-gradient(135deg,#7c3aed,#ec4899);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+  /* PRICE */
+  .price-box{background:#fafafa;border:1.5px solid #f3f4f6;border-radius:16px;overflow:hidden;}
+  .price-row{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid #f3f4f6;}
+  .price-row span{font-size:14px;color:#6b7280;}
+  .price-row strong{font-size:14px;color:#111827;}
+  .price-total{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;
+    background:linear-gradient(90deg,#f5f3ff,#fdf2f8);}
+  .price-total span{font-size:15px;font-weight:bold;color:#111827;}
+  .price-total strong{font-size:26px;font-weight:bold;
+    background:linear-gradient(90deg,#7c3aed,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .promo-chip{background:#dcfce7;border:1px solid #bbf7d0;border-radius:20px;
+    padding:2px 10px;font-size:10px;color:#16a34a;margin-left:6px;}
+
+  /* DELIVERY */
+  .d-grid{display:flex;gap:10px;}
+  .d-card{flex:1;border-radius:14px;padding:16px 10px;text-align:center;background:#fff;}
+  .d-card:nth-child(1){border:1.5px solid #ede9fe;}
+  .d-card:nth-child(2){border:1.5px solid #dbeafe;}
+  .d-card:nth-child(3){border:1.5px solid #fce7f3;}
+  .d-card:nth-child(4){border:1.5px solid #dcfce7;}
+  .d-icon{font-size:26px;margin-bottom:8px;animation:float 3s ease infinite;}
+  .d-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;color:#9ca3af;}
+  .d-val{font-size:12px;font-weight:bold;}
+  .d-v1{color:#7c3aed;}.d-v2{color:#2563eb;}.d-v3{color:#db2777;}.d-v4{color:#16a34a;}
+
+  /* RECO */
+  .reco-grid{display:flex;gap:10px;}
+  .reco-card{flex:1;border-radius:14px;overflow:hidden;background:#fff;
+    border:1.5px solid #f3f4f6;transition:transform .2s,box-shadow .2s;}
+  .reco-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.09);}
+  .reco-img{width:100%;height:96px;object-fit:cover;}
+  .reco-body{padding:10px 8px;}
+  .reco-name{font-size:11px;font-weight:bold;color:#111827;margin-bottom:4px;line-height:1.3;}
+  .reco-price{font-size:13px;font-weight:bold;margin-bottom:8px;
+    background:linear-gradient(90deg,#7c3aed,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .reco-btn{display:block;text-align:center;padding:7px 4px;border-radius:8px;font-size:11px;
+    font-weight:bold;text-decoration:none;color:#fff;background:linear-gradient(90deg,#7c3aed,#ec4899);}
+
+  /* PROMO */
+  .promo-box{border-radius:18px;padding:32px 28px;text-align:center;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#7c3aed 0%,#db2777 50%,#f59e0b 100%);
+    box-shadow:0 8px 32px rgba(124,58,237,.25);}
+  .promo-box::before{content:'';position:absolute;inset:0;
+    background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
+  .promo-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:10px;}
+  .promo-code-text{font-size:36px;font-weight:bold;color:#fff;letter-spacing:5px;margin-bottom:6px;}
+  .promo-desc{font-size:13px;color:rgba(255,255,255,.88);margin-bottom:20px;}
+  .promo-cta{display:inline-block;background:#fff;color:#7c3aed;
+    padding:13px 32px;border-radius:10px;font-size:14px;font-weight:bold;text-decoration:none;}
+
+  /* NL */
+  .nl-box{border-radius:16px;padding:26px;background:#f5f3ff;border:1.5px solid #ede9fe;}
+  .nl-title{font-size:16px;font-weight:bold;color:#111827;margin-bottom:6px;}
+  .nl-sub{font-size:13px;color:#6b7280;line-height:1.6;margin-bottom:16px;}
+  .nl-row{display:flex;gap:8px;}
+  .nl-input{flex:1;background:#fff;border:1.5px solid #ddd6fe;border-radius:8px;
+    padding:11px 14px;color:#111827;font-size:13px;outline:none;font-family:Arial,sans-serif;}
+  .nl-input:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.1);}
+  .nl-btn{background:linear-gradient(90deg,#7c3aed,#ec4899);color:#fff;border:none;
+    border-radius:8px;padding:11px 18px;font-size:13px;font-weight:bold;cursor:pointer;font-family:Arial,sans-serif;}
+
+  /* SOCIAL */
+  .social-btns{display:flex;gap:10px;justify-content:center;}
+  .s-btn{flex:1;max-width:160px;padding:12px;border-radius:10px;font-size:13px;font-weight:bold;
+    text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;color:#fff;transition:.2s;}
+  .s-tw{background:linear-gradient(135deg,#1DA1F2,#0d8ecf);}
+  .s-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);}
+  .s-wa{background:linear-gradient(135deg,#25D366,#128C7E);}
+  .s-btn:hover{opacity:.85;transform:translateY(-2px);}
+
+  .cta-primary{display:block;width:100%;text-align:center;
+    background:linear-gradient(90deg,#7c3aed,#ec4899,#f59e0b);
+    color:#fff;padding:17px;border-radius:12px;font-size:16px;font-weight:bold;
+    text-decoration:none;box-shadow:0 6px 24px rgba(124,58,237,.3);}
+  .cta-sec{display:block;width:100%;text-align:center;background:#fff;
+    border:1.5px solid #ddd6fe;color:#7c3aed;padding:14px;border-radius:12px;
+    font-size:14px;text-decoration:none;font-weight:600;transition:.2s;}
+  .cta-sec:hover{border-color:#7c3aed;background:#faf8ff;}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,#e5e7eb,transparent);margin:0 24px;}
+  .footer{background:#f8fafc;padding:28px 32px;text-align:center;border-top:1.5px solid #f1f5f9;}
+  .footer-brand{font-size:15px;font-weight:bold;margin-bottom:6px;
+    background:linear-gradient(90deg,#7c3aed,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .footer-addr{font-size:12px;color:#9ca3af;margin-bottom:14px;}
+  .footer-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;}
+  .footer-links a{font-size:12px;color:#9ca3af;text-decoration:none;}
+  .footer-links a:hover{color:#7c3aed;}
+  .footer-copy{font-size:11px;color:#d1d5db;}
+  @media(max-width:560px){
+    .d-grid,.reco-grid{flex-wrap:wrap;}
+    .d-card,.reco-card{min-width:45%;}
+    .social-btns{flex-wrap:wrap;}
+    .nl-row{flex-direction:column;}
+    .hero-title{font-size:22px;}
+  }
+</style>
+
+<div class="wrap">
+ <div class="card">
+
+  <div class="topbar">
+    <span class="topbar-brand">📖 Book Haven v3</span>
+    <a href="catalog.html" class="topbar-link">BROWSE CATALOG →</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-dots"></div><div class="hero-shine"></div>
+    <div style="position:relative;z-index:1;">
+      <div class="hero-ring">✅</div>
+      <div class="greeting-chip"><em>👋</em><span id="greetingText">Hey there!</span></div>
+      <div class="hero-badge">🎉 Order Confirmed</div>
+      <h1 class="hero-title" id="heroTitle">Your books are on their way!</h1>
+      <p class="hero-sub" id="heroSub">Thank you for your purchase. Your order is being packed for you right now.</p>
+      <div class="order-pill">
+        <div class="order-dot"></div>
+        <span class="order-lbl">ORDER ID &nbsp;·&nbsp;</span>
+        <span class="order-id" id="heroOrderId">#BHV3-—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER CARD — fully dynamic -->
+  <div class="cust-card">
+    <div class="cust-header"><span style="font-size:15px;">👤</span>
+      <span class="cust-header-lbl">Customer Information</span></div>
+    <div class="cust-body">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+        <div class="cust-avatar" id="custAvatar">?</div>
+        <div>
+          <div class="cust-fl">Full Name</div>
+          <div class="cust-name" id="custFullName">—</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:130px;"><div class="cust-fl">📧 Email</div><div class="cust-fv" id="custEmail" style="color:#7c3aed;">—</div></div>
+        <div style="flex:1;min-width:130px;"><div class="cust-fl">🗓️ Order Date</div><div class="cust-fv" id="custDate">—</div></div>
+        <div style="flex:1;min-width:130px;"><div class="cust-fl">🆔 Order ID</div><div class="cust-fv" id="custOrderId" style="color:#ec4899;">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRACKER -->
+  <div class="tracker-wrap">
+    <div class="sec-lbl" style="color:#7c3aed;">Delivery Progress</div>
+    <div class="tracker">
+      <div class="t-step"><div class="t-icon done">✓</div><div class="t-lbl done">Confirmed</div></div>
+      <div class="t-line full"></div>
+      <div class="t-step"><div class="t-icon done">✓</div><div class="t-lbl done">Processing</div></div>
+      <div class="t-line half"></div>
+      <div class="t-step"><div class="t-icon active">📦</div><div class="t-lbl act">Packing</div></div>
+      <div class="t-line none"></div>
+      <div class="t-step"><div class="t-icon todo">🚚</div><div class="t-lbl td">Shipped</div></div>
+      <div class="t-line none"></div>
+      <div class="t-step"><div class="t-icon todo">🏠</div><div class="t-lbl td">Delivered</div></div>
+    </div>
+  </div>
+
+  <!-- DYNAMIC ITEMS -->
+  <div class="sec" style="padding-top:26px;">
+    <div class="sec-lbl" style="color:#ec4899;">Items Ordered</div>
+    <div id="itemsList"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DYNAMIC PRICE -->
+  <div class="sec" style="padding-top:22px;">
+    <div class="sec-lbl" style="color:#3b82f6;">Payment Summary</div>
+    <div class="price-box">
+      <div class="price-row"><span>Subtotal (<span id="pItemCount">0</span> items)</span><strong>₹<span id="pSubtotal">0</span></strong></div>
+      <div class="price-row"><span>Promo Code <span class="promo-chip" id="pPromoChip"></span></span><strong style="color:#16a34a;">− ₹<span id="pDiscount">0</span></strong></div>
+      <div class="price-row"><span>Delivery</span><strong style="color:#16a34a;">Free 🎁</strong></div>
+      <div class="price-row"><span>Tax (GST)</span><strong>₹0</strong></div>
+      <div class="price-total"><span>Total Paid</span><strong>₹<span id="pGrandTotal">0</span></strong></div>
+    </div>
+  </div>
+
+  <div class="divider" style="margin-top:22px;"></div>
+
+  <!-- DELIVERY CARDS -->
+  <div class="sec" style="padding-top:22px;">
+    <div class="sec-lbl" style="color:#2563eb;">Delivery Information</div>
+    <div class="d-grid">
+      <div class="d-card"><div class="d-icon">📅</div><div class="d-lbl">Order Date</div><div class="d-val d-v1" id="dDate">—</div></div>
+      <div class="d-card"><div class="d-icon">🚚</div><div class="d-lbl">Est. Delivery</div><div class="d-val d-v2" id="dEta">—</div></div>
+      <div class="d-card"><div class="d-icon">📍</div><div class="d-lbl">Status</div><div class="d-val d-v3">Packing ●</div></div>
+      <div class="d-card"><div class="d-icon">🔒</div><div class="d-lbl">Payment</div><div class="d-val d-v4">Secured</div></div>
+    </div>
+  </div>
+
+  <div class="divider" style="margin-top:22px;"></div>
+
+  <!-- RECOMMENDED -->
+  <div class="sec" style="padding-top:22px;">
+    <div class="sec-lbl" style="color:#db2777;">You May Also Like</div>
+    <div class="reco-grid">
+      <div class="reco-card"><img class="reco-img" src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&amp;fit=crop&amp;w=300&amp;q=80" alt="The Alchemist"><div class="reco-body"><div class="reco-name">The Alchemist</div><div class="reco-price">₹350</div><a href="catalog.html" class="reco-btn">View</a></div></div>
+      <div class="reco-card"><img class="reco-img" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&amp;fit=crop&amp;w=300&amp;q=80" alt="Mindset Reset"><div class="reco-body"><div class="reco-name">Mindset Reset</div><div class="reco-price">₹399</div><a href="catalog.html" class="reco-btn">View</a></div></div>
+      <div class="reco-card"><img class="reco-img" src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&amp;fit=crop&amp;w=300&amp;q=80" alt="Build Better Brands"><div class="reco-body"><div class="reco-name">Build Better Brands</div><div class="reco-price">₹699</div><a href="catalog.html" class="reco-btn">View</a></div></div>
+      <div class="reco-card"><img class="reco-img" src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&amp;fit=crop&amp;w=300&amp;q=80" alt="Zero to One"><div class="reco-body"><div class="reco-name">Zero to One</div><div class="reco-price">₹549</div><a href="catalog.html" class="reco-btn">View</a></div></div>
+    </div>
+  </div>
+
+  <!-- PROMO -->
+  <div class="sec" style="padding-top:22px;padding-bottom:0;">
+    <div class="promo-box">
+      <div class="promo-tag">🎁 Gift for Your Next Order</div>
+      <div class="promo-code-text">BOOK20</div>
+      <div class="promo-desc">Use this code for <strong>20% OFF</strong> your next order. Valid 30 days!</div>
+      <a href="catalog.html" class="promo-cta">Shop &amp; Save Now →</a>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="sec" style="padding-top:22px;padding-bottom:0;">
+    <div class="nl-box">
+      <div style="font-size:28px;margin-bottom:10px;">📬</div>
+      <div class="nl-title" id="nlTitle">Stay ahead of new releases</div>
+      <div class="nl-sub">Get weekly picks, exclusive deals &amp; author spotlights in your inbox.</div>
+      <div class="nl-row">
+        <input class="nl-input" type="email" placeholder="Enter your email" id="nlEmail">
+        <button class="nl-btn" id="nlBtn">Subscribe</button>
+      </div>
+      <div id="nlMsg" style="font-size:12px;margin-top:8px;min-height:16px;"></div>
+    </div>
+  </div>
+
+  <!-- SHARE -->
+  <div class="sec" style="padding-top:22px;padding-bottom:0;text-align:center;">
+    <div style="font-size:13px;color:#9ca3af;margin-bottom:14px;">📣 Love your purchase? Share it!</div>
+    <div class="social-btns">
+      <a href="#" class="s-btn s-tw">🐦 Twitter</a>
+      <a href="#" class="s-btn s-ig">📸 Instagram</a>
+      <a href="#" class="s-btn s-wa">💬 WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="padding:24px;display:flex;flex-direction:column;gap:12px;">
+    <a href="../catalog.html" class="cta-primary">🛍️ Continue Shopping</a>
+    <a href="../wishlist.html" class="cta-sec">🤍 View My Wishlist</a>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">📖 Book Haven v3</div>
+    <div class="footer-addr">123 Library Lane, Mumbai, India · support@bookhaven.com</div>
+    <div class="footer-links">
+      <a href="#">Unsubscribe</a><a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a><a href="#">Help Center</a><a href="#">View in Browser</a>
+    </div>
+    <div class="footer-copy">© 2026 Book Haven v3. All rights reserved.</div>
+  </div>
+
+ </div>
+</div>
+
+<script>
+  // ══════════════════════════════════════════════════
+  // ✅ READ ORDER SNAPSHOT saved by checkout.html
+  //    key: "lastOrder"
+  //    Contains: customer name, email, items, totals
+  // ══════════════════════════════════════════════════
+  document.addEventListener("DOMContentLoaded", function () {
+
+    var raw   = localStorage.getItem("lastOrder");
+    var order = raw ? JSON.parse(raw) : null;
+
+    // ── fallback defaults ──
+    var firstName = "Valued";
+    var lastName  = "Customer";
+    var email     = "—";
+    var orderId   = "#BHV3-—";
+    var orderDate = new Date().toLocaleDateString("en-IN",{year:"numeric",month:"long",day:"numeric"});
+    var items     = [];
+    var subtotal  = 0;
+    var discount  = 0;
+    var grandTotal= 0;
+    var promoCode = "None";
+
+    if (order) {
+      firstName  = order.customer.firstName || firstName;
+      lastName   = order.customer.lastName  || lastName;
+      email      = order.customer.email     || email;
+      orderId    = order.orderId            || orderId;
+      orderDate  = order.orderDate          || orderDate;
+      items      = order.items              || [];
+      subtotal   = order.subtotal           || 0;
+      discount   = order.discount           || 0;
+      grandTotal = order.grandTotal         || 0;
+      promoCode  = order.promoCode          || "None";
+    }
+
+    var fullName = (firstName + " " + lastName).trim();
+    var initials = firstName[0] + (lastName ? lastName[0] : "");
+
+    // ── HERO ──
+    document.getElementById("greetingText").textContent = "Hey " + firstName + "! 👋";
+    document.getElementById("heroTitle").textContent    = firstName + ", your books are on their way! 🎉";
+    document.getElementById("heroSub").innerHTML        =
+      "Thank you, <strong>" + fullName + "</strong>. Your order is confirmed and being packed right now.";
+    document.getElementById("heroOrderId").textContent  = orderId;
+
+    // ── CUSTOMER CARD ──
+    document.getElementById("custAvatar").textContent   = initials.toUpperCase();
+    document.getElementById("custFullName").textContent = fullName;
+    document.getElementById("custEmail").textContent    = email;
+    document.getElementById("custDate").textContent     = orderDate;
+    document.getElementById("custOrderId").textContent  = orderId;
+
+    // ── DELIVERY ──
+    document.getElementById("dDate").textContent = orderDate;
+    // Estimate: 2 days from now
+    var eta = new Date(); eta.setDate(eta.getDate()+2);
+    var eta2= new Date(); eta2.setDate(eta2.getDate()+3);
+    document.getElementById("dEta").textContent =
+      eta.toLocaleDateString("en-IN",{month:"short",day:"numeric"}) + " – " +
+      eta2.toLocaleDateString("en-IN",{month:"short",day:"numeric",year:"numeric"});
+
+    // ── DYNAMIC ITEMS ──
+    var listEl = document.getElementById("itemsList");
+    var tagColors = ["#a855f7","#3b82f6","#ec4899","#f59e0b","#16a34a"];
+    if (items.length === 0) {
+      listEl.innerHTML = '<p style="color:#9ca3af;font-size:14px;padding:12px 0;">No items found.</p>';
+    } else {
+      items.forEach(function(item, i) {
+        var color = tagColors[i % tagColors.length];
+        var div   = document.createElement("div");
+        div.className = "book-row";
+        div.innerHTML =
+          (item.image
+            ? '<img class="book-img" src="'+item.image+'" alt="'+item.name+'" onerror="this.style.display=\'none\'"/>'
+            : '<div class="book-img-placeholder">📚</div>') +
+          '<div class="book-meta">'+
+            '<div class="book-tag" style="color:'+color+';">'+(item.category||"Book")+'</div>'+
+            '<div class="book-name">'+item.name+'</div>'+
+            '<div class="book-detail">Paperback · Qty: '+(item.qty||1)+' · 2-day delivery</div>'+
+          '</div>'+
+          '<div class="book-price">₹'+item.price+'</div>';
+        listEl.appendChild(div);
+      });
+    }
+
+    // ── PAYMENT SUMMARY ──
+    document.getElementById("pItemCount").textContent  = items.length;
+    document.getElementById("pSubtotal").textContent   = subtotal;
+    document.getElementById("pDiscount").textContent   = discount;
+    document.getElementById("pGrandTotal").textContent = grandTotal;
+    document.getElementById("pPromoChip").textContent  = promoCode !== "None" ? "🎟 " + promoCode : "";
+
+    // ── NEWSLETTER ──
+    document.getElementById("nlTitle").textContent =
+      firstName !== "Valued" ? firstName + ", stay ahead of new releases!" : "Stay ahead of new releases";
+    if (email !== "—") document.getElementById("nlEmail").value = email;
+  });
+
+  // Newsletter
+  document.getElementById("nlBtn").addEventListener("click", function () {
+    var v = document.getElementById("nlEmail").value.trim();
+    var m = document.getElementById("nlMsg");
+    if (!v || !v.includes("@")) { m.style.color="#ef4444"; m.textContent="❌ Enter a valid email."; return; }
+    m.style.color="#7c3aed"; m.textContent="✅ Subscribed! Great picks incoming ✨";
+    document.getElementById("nlEmail").value="";
+  });
+</script>
+
+</body></html>

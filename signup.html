@@ -1,0 +1,135 @@
+<html data-type="html" data-identifier="165c5604-f928-465f-a2b1-c98f94deff3d" data-title="signup.html – White Theme" data-version="1" width="1200" height="800"><head></head><body style="margin:0;padding:0;font-family:Arial,sans-serif;">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  .auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#eff6ff 0%,#f5f3ff 50%,#fdf2f8 100%);
+    padding:32px 16px;position:relative;overflow:hidden;}
+  .auth-page::before{content:'';position:absolute;top:-80px;right:-80px;width:360px;height:360px;
+    border-radius:50%;background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(124,58,237,.08));pointer-events:none;}
+  .auth-page::after{content:'';position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;
+    border-radius:50%;background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(59,130,246,.06));pointer-events:none;}
+  .auth-card{max-width:520px;width:100%;background:#fff;border-radius:20px;padding:40px;
+    box-shadow:0 8px 40px rgba(124,58,237,.12),0 2px 10px rgba(0,0,0,.06);
+    border:1.5px solid #ede9fe;position:relative;z-index:1;}
+  .auth-logo{width:52px;height:52px;border-radius:14px;
+    background:linear-gradient(135deg,#7c3aed,#ec4899);
+    display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px;}
+  .auth-title{font-size:24px;font-weight:bold;color:#1e1b4b;text-align:center;margin-bottom:6px;}
+  .auth-sub{font-size:14px;color:#6b7280;text-align:center;margin-bottom:26px;}
+  .form-label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;}
+  .form-control{width:100%;background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;
+    padding:12px 14px;font-size:14px;color:#111827;outline:none;font-family:Arial,sans-serif;transition:.2s;}
+  .form-control:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.1);background:#fff;}
+  .input-group{display:flex;}
+  .input-group .form-control{border-radius:8px 0 0 8px;flex:1;}
+  .input-group .eye-btn{background:#f9fafb;border:1.5px solid #e5e7eb;border-left:none;
+    border-radius:0 8px 8px 0;padding:12px 14px;cursor:pointer;color:#6b7280;font-size:16px;}
+  .input-group .eye-btn:hover{background:#f3f4f6;}
+  .form-text{font-size:11px;color:#9ca3af;margin-top:4px;}
+  .mb-3{margin-bottom:16px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .check-label{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#374151;cursor:pointer;margin-bottom:20px;}
+  .check-label input{margin-top:2px;accent-color:#7c3aed;}
+  .btn-submit{width:100%;background:linear-gradient(90deg,#7c3aed,#ec4899);color:#fff;
+    border:none;border-radius:10px;padding:14px;font-size:16px;font-weight:bold;
+    cursor:pointer;font-family:Arial,sans-serif;box-shadow:0 4px 16px rgba(124,58,237,.3);transition:.2s;}
+  .btn-submit:hover{opacity:.9;}
+  .alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:16px;}
+  .alert-success{background:#dcfce7;border:1px solid #bbf7d0;color:#166534;}
+  .alert-danger{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;}
+  .auth-footer{text-align:center;margin-top:18px;font-size:14px;color:#6b7280;}
+  .auth-footer a{color:#7c3aed;font-weight:bold;text-decoration:none;}
+  .divider{text-align:center;color:#9ca3af;font-size:12px;margin:18px 0;position:relative;}
+  .divider::before,.divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:#e5e7eb;}
+  .divider::before{left:0;}.divider::after{right:0;}
+</style>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <a href="index.html" style="text-decoration:none;display:block;text-align:center;margin-bottom:14px;">
+      <div class="auth-logo">📖</div>
+      <h1 class="auth-title">Book Haven v3</h1>
+    </a>
+    <p class="auth-sub">Create your account and start building your reading list.</p>
+
+    <div id="signupAlert" class="alert" style="display:none;"></div>
+
+    <form id="signupForm" novalidate="">
+      <div class="grid-2 mb-3">
+        <div>
+          <label class="form-label" for="firstName">First name</label>
+          <input type="text" class="form-control" id="firstName" placeholder="Your first name" required="">
+        </div>
+        <div>
+          <label class="form-label" for="lastName">Last name</label>
+          <input type="text" class="form-control" id="lastName" placeholder="Your last name" required="">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="signupEmail">Email</label>
+        <input type="email" class="form-control" id="signupEmail" placeholder="Enter your email" required="">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="signupPassword">Password</label>
+        <div class="input-group">
+          <input type="password" class="form-control" id="signupPassword" placeholder="Create a password" required="" minlength="6">
+          <button class="eye-btn" type="button" id="toggleSignupPassword">👁</button>
+        </div>
+        <p class="form-text">Use a strong password with letters, numbers, and symbols.</p>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="confirmPassword">Confirm password</label>
+        <div class="input-group">
+          <input type="password" class="form-control" id="confirmPassword" placeholder="Re-enter your password" required="">
+          <button class="eye-btn" type="button" id="toggleConfirmPassword">👁</button>
+        </div>
+      </div>
+      <label class="check-label">
+        <input type="checkbox" id="termsCheck" required="">
+        I agree to the <a href="#" style="color:#7c3aed;text-decoration:none;font-weight:bold;">terms and conditions</a>
+      </label>
+      <button type="submit" class="btn-submit">Create Account →</button>
+    </form>
+
+    <div class="divider">or</div>
+    <div class="auth-footer">Already have an account? <a href="login.html">Login</a></div>
+  </div>
+</div>
+
+<script>
+  function togglePass(inputId, btnId) {
+    document.getElementById(btnId).addEventListener("click", function() {
+      var p = document.getElementById(inputId);
+      p.type = p.type === "password" ? "text" : "password";
+      this.textContent = p.type === "password" ? "👁" : "🙈";
+    });
+  }
+  togglePass("signupPassword","toggleSignupPassword");
+  togglePass("confirmPassword","toggleConfirmPassword");
+
+  document.getElementById("signupForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    var fn   = document.getElementById("firstName").value.trim();
+    var ln   = document.getElementById("lastName").value.trim();
+    var em   = document.getElementById("signupEmail").value.trim();
+    var pw   = document.getElementById("signupPassword").value;
+    var cpw  = document.getElementById("confirmPassword").value;
+    var tc   = document.getElementById("termsCheck").checked;
+    var al   = document.getElementById("signupAlert");
+
+    if (!fn||!ln||!em||!pw||!cpw||!tc) {
+      al.className="alert alert-danger"; al.style.display="block";
+      al.textContent="Please fill in all fields correctly."; return;
+    }
+    if (pw !== cpw) {
+      al.className="alert alert-danger"; al.style.display="block";
+      al.textContent="Passwords do not match."; return;
+    }
+    localStorage.setItem("bookHavenUser", JSON.stringify({ firstName:fn, lastName:ln, email:em }));
+    al.className="alert alert-success"; al.style.display="block";
+    al.textContent="Account created successfully! Redirecting to Login...";
+    setTimeout(function(){ window.location.href="login.html"; },1200);
+  });
+</script>
+
+</body></html>

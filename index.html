@@ -1,0 +1,392 @@
+<html data-type="html" data-identifier="5d83d149-0306-4761-b9b2-30d9fd25ccde" data-title="index.html – With Background Video" data-version="2" width="1200" height="800" videomodel="video-generation-model"><head></head><body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif;">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#f1f5f9;color:#111827;}
+
+  /* ── NAVBAR ── */
+  .navbar{background:rgba(15,10,40,.85);backdrop-filter:blur(12px);
+    padding:14px 0;position:sticky;top:0;z-index:100;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    transition:background .3s;}
+  .navbar.scrolled{background:#1e1b4b;}
+  .container{max-width:1140px;margin:0 auto;padding:0 20px;}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .brand{color:#fff;font-size:18px;font-weight:bold;text-decoration:none;display:flex;align-items:center;gap:8px;}
+  .nav-links{display:flex;gap:14px;list-style:none;flex-wrap:wrap;}
+  .nav-links a{color:rgba(255,255,255,.75);font-size:14px;text-decoration:none;transition:.2s;}
+  .nav-links a:hover,.nav-links a.active{color:#fff;}
+  .btn{display:inline-block;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:bold;text-decoration:none;cursor:pointer;border:none;font-family:Arial,sans-serif;transition:.2s;}
+  .btn-brand{background:linear-gradient(90deg,#7c3aed,#ec4899);color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.35);}
+  .btn-brand:hover{opacity:.9;transform:translateY(-1px);}
+  .btn-outline-white{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(4px);}
+  .btn-outline-white:hover{background:rgba(255,255,255,.22);}
+  .btn-warning{background:#fbbf24;color:#111827;}
+  .btn-warning:hover{background:#f59e0b;}
+  .btn-outline{background:#fff;border:1.5px solid #ddd6fe;color:#7c3aed;}
+  .btn-outline:hover{background:#f5f3ff;}
+  .btn-lg{padding:14px 28px;font-size:16px;}
+
+  /* ── HERO WITH VIDEO BG ── */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;}
+
+  /* Background video */
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+
+  /* Fallback image shown while video loads */
+  .hero-img-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+
+  /* Multi-layer overlay */
+  .hero-overlay{position:absolute;inset:0;z-index:1;
+    background:linear-gradient(
+      135deg,
+      rgba(15,10,40,.82) 0%,
+      rgba(30,27,75,.75) 40%,
+      rgba(124,58,237,.35) 100%
+    );}
+
+  /* Dot pattern overlay */
+  .hero-dots{position:absolute;inset:0;z-index:2;opacity:.12;
+    background-image:radial-gradient(circle,#fff 1px,transparent 1px);
+    background-size:28px 28px;pointer-events:none;}
+
+  /* Bottom fade */
+  .hero-fade{position:absolute;bottom:0;left:0;right:0;height:160px;z-index:2;
+    background:linear-gradient(to bottom,transparent,#f1f5f9);}
+
+  /* Floating orbs */
+  .orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:1;}
+  .orb1{width:400px;height:400px;background:rgba(124,58,237,.25);top:-100px;right:-80px;}
+  .orb2{width:300px;height:300px;background:rgba(236,72,153,.2);bottom:80px;left:-60px;}
+  .orb3{width:200px;height:200px;background:rgba(245,158,11,.15);top:50%;right:20%;}
+
+  .hero-content{position:relative;z-index:3;width:100%;padding:100px 0 120px;}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+    color:#fff;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    padding:7px 16px;border-radius:20px;margin-bottom:20px;backdrop-filter:blur(4px);}
+  .hero-badge::before{content:'✦';color:#fbbf24;}
+  .hero-title{font-size:52px;font-weight:bold;color:#fff;line-height:1.15;margin-bottom:18px;
+    text-shadow:0 2px 20px rgba(0,0,0,.3);}
+  .hero-title span{background:linear-gradient(90deg,#fbbf24,#f97316,#ec4899);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero-copy{font-size:17px;color:rgba(255,255,255,.82);line-height:1.75;margin-bottom:32px;max-width:560px;}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px;}
+
+  /* STAT CARDS */
+  .stat-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .stat-card{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 22px;
+    transition:transform .2s,background .2s;}
+  .stat-card:hover{transform:translateY(-3px);background:rgba(255,255,255,.14);}
+  .stat-card .lbl{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .stat-card .val{font-size:28px;font-weight:bold;color:#fff;}
+
+  /* HERO PANEL */
+  .hero-panel{background:rgba(255,255,255,.08);backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:32px;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);}
+  .hero-panel h2{color:#fff;font-size:20px;font-weight:bold;margin-bottom:10px;}
+  .hero-panel p{color:rgba(255,255,255,.72);font-size:14px;line-height:1.6;margin-bottom:20px;}
+  .book-stack{display:flex;justify-content:center;gap:8px;margin-bottom:24px;}
+  .book-s{border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+  .b1{width:52px;height:120px;background:linear-gradient(135deg,#f59e0b,#f97316);}
+  .b2{width:52px;height:140px;background:linear-gradient(135deg,#ec4899,#a855f7);margin-top:-10px;}
+  .b3{width:52px;height:120px;background:linear-gradient(135deg,#3b82f6,#06b6d4);}
+  .panel-stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+    border-radius:10px;padding:12px 16px;}
+  .panel-stat .lbl{font-size:11px;color:rgba(255,255,255,.6);}
+  .panel-stat .val{font-size:22px;font-weight:bold;color:#fff;}
+
+  /* SCROLL INDICATOR */
+  .scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+    z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;}
+  .scroll-hint span{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;}
+  .scroll-arrow{width:28px;height:28px;border:1.5px solid rgba(255,255,255,.3);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    color:rgba(255,255,255,.5);animation:bounce 2s ease infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+  /* MAIN SECTIONS */
+  main{padding:56px 0;}
+  .section-title{font-size:28px;font-weight:bold;color:#1e1b4b;margin-bottom:8px;}
+  .muted{color:#6b7280;font-size:14px;}
+
+  /* BOOK CARDS */
+  .book-card{background:#fff;border-radius:16px;padding:16px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);border:1.5px solid #f3f4f6;
+    transition:transform .2s,box-shadow .2s;height:100%;}
+  .book-card:hover{transform:translateY(-5px);box-shadow:0 14px 32px rgba(124,58,237,.13);}
+  .story-img{width:100%;height:190px;object-fit:cover;border-radius:10px;margin-bottom:14px;}
+  .rating{color:#f59e0b;font-size:13px;}
+
+  /* FEATURE STRIP */
+  .feature-strip{background:#fff;border-radius:18px;padding:36px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .feat-pill{background:#f9fafb;border:1.5px solid #f3f4f6;border-radius:10px;padding:14px 16px;transition:border-color .2s;}
+  .feat-pill:hover{border-color:#ddd6fe;}
+  .feat-pill .lbl{font-size:11px;color:#9ca3af;}
+  .feat-pill .val{font-size:14px;font-weight:bold;color:#1e1b4b;}
+
+  /* NEWSLETTER */
+  .newsletter{background:linear-gradient(135deg,#f5f3ff,#fdf2f8);
+    border:1.5px solid #ede9fe;border-radius:18px;padding:40px;}
+  .newsletter input{background:#fff;border:1.5px solid #ddd6fe;border-radius:8px;
+    padding:13px 16px;font-size:14px;color:#111827;outline:none;
+    width:100%;font-family:Arial,sans-serif;transition:.2s;}
+  .newsletter input:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.1);}
+  #newsletterMsg{font-size:12px;margin-top:8px;min-height:16px;}
+
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .flex-between{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  .flex-gap{display:flex;gap:12px;flex-wrap:wrap;}
+  .mb-4{margin-bottom:32px;}.mb-5{margin-bottom:44px;}
+
+  /* FLOATING CART */
+  .floating-cart{position:fixed;bottom:24px;right:24px;width:54px;height:54px;border-radius:50%;
+    background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;display:flex;
+    align-items:center;justify-content:center;font-size:22px;text-decoration:none;
+    box-shadow:0 6px 20px rgba(124,58,237,.45);transition:transform .2s;}
+  .floating-cart:hover{transform:scale(1.1);}
+
+  footer{background:#1e1b4b;color:rgba(255,255,255,.45);text-align:center;padding:22px;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{animation:fadeUp .7s ease both;}
+  .fade-in:nth-child(2){animation-delay:.1s;}
+  .fade-in:nth-child(3){animation-delay:.2s;}
+
+  @media(max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr);}.nav-links{display:none;}.hero-title{font-size:34px;}.hero-panel-col{display:none;}}
+  @media(max-width:500px){.grid-4{grid-template-columns:1fr;}.hero-title{font-size:28px;}}
+</style>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">📖 Book Haven v3</a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="book-details.html">Book Details</a></li>
+        <li><a href="wishlist.html">Wishlist (<span data-wishlist-count="">0</span>)</a></li>
+        <li><a href="checkout.html">Checkout (<span data-cart-count="">0</span>)</a></li>
+      </ul>
+      <a href="catalog.html" class="btn btn-brand" style="font-size:13px;padding:9px 18px;">Browse Books</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+
+  <!-- ✅ BACKGROUND VIDEO -->
+  <video class="hero-video" autoplay="" muted="" loop="" playsinline="" poster="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&amp;fit=crop&amp;w=1600&amp;q=80">
+    <source data-src="A slow, cinematic pan through a warm, moody library filled with floor-to-ceiling bookshelves. Golden ambient light glows between the shelves. Books gently illuminate. Atmospheric, cozy, premium bookstore feel. Slow camera movement, no people." type="video/mp4">
+  </video>
+
+  <!-- ✅ FALLBACK IMAGE (shows while video loads or if video unsupported) -->
+  <img class="hero-img-fallback" src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Library background" style="display:none;" id="fallbackImg">
+
+  <!-- OVERLAYS -->
+  <div class="hero-overlay"></div>
+  <div class="hero-dots"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="hero-fade"></div>
+
+  <!-- CONTENT -->
+  <div class="hero-content">
+    <div class="container">
+      <div style="display:flex;gap:48px;align-items:center;flex-wrap:wrap;">
+
+        <!-- LEFT -->
+        <div style="flex:1;min-width:280px;">
+          <div class="hero-badge fade-in">Discover · Read · Save</div>
+          <h1 class="hero-title fade-in">
+            A bookstore experience that makes people want to
+            <span>buy, read,</span> and stay longer.
+          </h1>
+          <p class="hero-copy fade-in">
+            Premium covers, emotional storytelling, smart categories, and a seamless checkout flow —
+            all crafted to make browsing feel like a pleasure.
+          </p>
+          <div class="hero-btns fade-in">
+            <a href="catalog.html" class="btn btn-warning btn-lg">Explore Catalog 📚</a>
+            <a href="#featured" class="btn btn-outline-white btn-lg">See Bestsellers</a>
+          </div>
+          <div class="stat-row fade-in">
+            <div class="stat-card"><div class="lbl">Books</div><div class="val">1000+</div></div>
+            <div class="stat-card"><div class="lbl">Genres</div><div class="val">12+</div></div>
+            <div class="stat-card"><div class="lbl">Readers</div><div class="val">25k+</div></div>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="hero-panel-col" style="width:310px;flex-shrink:0;">
+          <div class="hero-panel fade-in">
+            <div class="book-stack">
+              <div class="book-s b1"></div>
+              <div class="book-s b2"></div>
+              <div class="book-s b3"></div>
+            </div>
+            <h2>Curated reading journey</h2>
+            <p>Elegant cards, responsive design, and a smooth shopping flow built for readers.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="panel-stat"><div class="lbl">Navigation</div><div class="val" style="font-size:16px;margin-top:3px;">Sticky</div></div>
+              <div class="panel-stat"><div class="lbl">Checkout</div><div class="val" style="font-size:16px;margin-top:3px;">Fast</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SCROLL INDICATOR -->
+  <div class="scroll-hint" id="scrollHint">
+    <span>Scroll</span>
+    <div class="scroll-arrow">↓</div>
+  </div>
+
+</header>
+
+<!-- MAIN -->
+<main>
+  <div class="container">
+
+    <!-- FEATURED BOOKS -->
+    <section class="mb-5" id="featured">
+      <div class="flex-between mb-4">
+        <div>
+          <h2 class="section-title">Bestsellers people actually want to pick up</h2>
+          <p class="muted">Books that look beautiful, feel premium, and sell well.</p>
+        </div>
+        <a href="catalog.html" class="btn btn-outline">View full catalog</a>
+      </div>
+      <div class="grid-4">
+        <div class="book-card">
+          <img class="story-img" src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Book">
+          <h3 style="font-size:15px;font-weight:bold;color:#1e1b4b;margin-bottom:6px;">The Summer I Turned Pretty</h3>
+          <p class="muted" style="font-size:13px;margin-bottom:10px;">A warm, emotional summer read.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="rating">⭐ 4.8</span><strong style="color:#7c3aed;">₹600</strong>
+          </div>
+        </div>
+        <div class="book-card">
+          <img class="story-img" src="https://images.unsplash.com/photo-1618944847023-38aa001235f0?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Book">
+          <h3 style="font-size:15px;font-weight:bold;color:#1e1b4b;margin-bottom:6px;">Harry Potter</h3>
+          <p class="muted" style="font-size:13px;margin-bottom:10px;">Magic, adventure, and nostalgia.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="rating">⭐ 4.9</span><strong style="color:#7c3aed;">₹500</strong>
+          </div>
+        </div>
+        <div class="book-card">
+          <img class="story-img" src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Book">
+          <h3 style="font-size:15px;font-weight:bold;color:#1e1b4b;margin-bottom:6px;">The Alchemist</h3>
+          <p class="muted" style="font-size:13px;margin-bottom:10px;">A timeless self-discovery journey.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="rating">⭐ 4.9</span><strong style="color:#7c3aed;">₹350</strong>
+          </div>
+        </div>
+        <div class="book-card">
+          <img class="story-img" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Book">
+          <h3 style="font-size:15px;font-weight:bold;color:#1e1b4b;margin-bottom:6px;">Mindset Reset</h3>
+          <p class="muted" style="font-size:13px;margin-bottom:10px;">A modern guide to focus and growth.</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="rating">⭐ 4.7</span><strong style="color:#7c3aed;">₹399</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="mb-5">
+      <div class="feature-strip">
+        <div style="display:flex;gap:36px;align-items:center;flex-wrap:wrap;">
+          <div style="flex:1;min-width:220px;">
+            <h2 class="section-title" style="font-size:22px;">Why Book Haven feels more addictive to browse</h2>
+            <p class="muted" style="margin-top:10px;line-height:1.7;">The visuals are richer, the covers are more inviting, and the layout encourages discovery. This is the kind of storefront that nudges visitors toward "Add to Cart."</p>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <div class="grid-2">
+              <div class="feat-pill"><div class="lbl">Navigation</div><div class="val">Sticky + clean</div></div>
+              <div class="feat-pill"><div class="lbl">Mode</div><div class="val">Light theme</div></div>
+              <div class="feat-pill"><div class="lbl">Checkout</div><div class="val">Fast + clear</div></div>
+              <div class="feat-pill"><div class="lbl">Mood</div><div class="val">Premium</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section id="newsletter" class="mb-4">
+      <div class="newsletter">
+        <div style="display:flex;gap:36px;align-items:center;flex-wrap:wrap;">
+          <div style="flex:1;min-width:220px;">
+            <h2 class="section-title">Join the Book Haven newsletter</h2>
+            <p class="muted" style="margin-top:10px;">Get new releases, featured picks, and exclusive discounts straight to your inbox.</p>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <form id="newsletterForm">
+              <div style="display:flex;gap:10px;">
+                <input type="email" id="newsletterEmail" placeholder="Enter your email address">
+                <button type="submit" class="btn btn-brand" style="white-space:nowrap;">Subscribe</button>
+              </div>
+            </form>
+            <p id="newsletterMsg"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer><div class="container"><p>© 2026 Book Haven v3</p></div></footer>
+<a href="checkout.html" class="floating-cart" aria-label="Cart">🛒</a>
+
+<script>
+  // ── Navbar scroll effect ──
+  window.addEventListener("scroll", function () {
+    var nav = document.getElementById("navbar");
+    if (window.scrollY > 60) { nav.classList.add("scrolled"); }
+    else { nav.classList.remove("scrolled"); }
+  });
+
+  // ── Hide scroll hint on scroll ──
+  window.addEventListener("scroll", function () {
+    var hint = document.getElementById("scrollHint");
+    if (hint) hint.style.opacity = window.scrollY > 80 ? "0" : "1";
+  });
+
+  // ── Smooth scroll for anchor ──
+  document.getElementById("scrollHint").addEventListener("click", function () {
+    document.getElementById("featured").scrollIntoView({ behavior: "smooth" });
+  });
+
+  // ── Video fallback: if video fails, show image ──
+  var video = document.querySelector(".hero-video");
+  var fallback = document.getElementById("fallbackImg");
+  if (video) {
+    video.addEventListener("error", function () {
+      video.style.display = "none";
+      fallback.style.display = "block";
+    });
+  }
+
+  // ── Newsletter ──
+  document.getElementById("newsletterForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = document.getElementById("newsletterEmail").value.trim();
+    var m = document.getElementById("newsletterMsg");
+    if (!v || !v.includes("@")) {
+      m.style.color = "#ef4444"; m.textContent = "❌ Enter a valid email."; return;
+    }
+    m.style.color = "#7c3aed"; m.textContent = "✅ Subscribed! Watch your inbox.";
+    document.getElementById("newsletterEmail").value = "";
+  });
+</script>
+
+</body></html>
