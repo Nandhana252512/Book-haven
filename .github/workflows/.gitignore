@@ -1,0 +1,11 @@
+# Node dependencies (Installed locally)
+node_modules/
+npm-debug.log*
+
+# Cypress assets (Automatically generated during runs)
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Local configuration files
+.env
