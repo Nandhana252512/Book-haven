@@ -48,3 +48,7 @@ jobs:
           start: npm run start
           wait-on: 'http://localhost:3000'
           browser: chrome
+      - name: Scan Secrets (TruffleHog)
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
