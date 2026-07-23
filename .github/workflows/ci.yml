@@ -20,8 +20,6 @@ jobs:
       - name: Scan Secrets (TruffleHog)
         uses: trufflesecurity/trufflehog@main
         with:
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
           extra_args: --only-verified
 
   # Job 2: Run Cypress End-to-End Tests as a Quality Gate
@@ -48,7 +46,3 @@ jobs:
           start: npm run start
           wait-on: 'http://localhost:3000'
           browser: chrome
-      - name: Scan Secrets (TruffleHog)
-        uses: trufflesecurity/trufflehog@main
-        with:
-          extra_args: --only-verified
