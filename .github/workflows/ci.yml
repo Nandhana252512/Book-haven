@@ -2,9 +2,9 @@ name: CI Quality Gate and Security Scanning
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [ main, master ]
 
 jobs:
   # Job 1: Check for exposed secrets, API keys, or credentials
@@ -18,11 +18,11 @@ jobs:
           fetch-depth: 0 # TruffleHog needs full history to scan commits properly
 
       - name: Scan Secrets (TruffleHog)
-        uses: trufflesecurity/trufflehog-enterprise-github-action@main
+        uses: trufflesecurity/trufflehog@main
         with:
           base: ${{ github.event.repository.default_branch }}
           head: HEAD
-          extra_args: --debug --only-verified
+          extra_args: --only-verified
 
   # Job 2: Run Cypress End-to-End Tests as a Quality Gate
   cypress-tests:
@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20 # Upgraded to version 20 to remove deprecation warnings
           cache: 'npm'
 
       - name: Install Dependencies
@@ -45,7 +45,6 @@ jobs:
       - name: Run Cypress E2E Tests (Headless)
         uses: cypress-io/github-action@v6
         with:
-          # If your app runs on a local static server, start it here:
           start: npm run start
-          wait-on: 'http://localhost:3000' # Change to match your server port
+          wait-on: 'http://localhost:3000'
           browser: chrome
