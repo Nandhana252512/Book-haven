@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,15 @@
   "type": "commonjs",
   "devDependencies": {
     "cypress": "^15.19.0",
+    "http-server": "^14.1.1",
     "start-server-and-test": "^3.0.11"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nandhana252512/Book-haven.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nandhana252512/Book-haven/issues"
+  },
+  "homepage": "https://github.com/Nandhana252512/Book-haven#readme"
 }

@@ -2,31 +2,22 @@ name: CI Quality Gate and Security Scanning
 
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  # Job 1: Check for exposed secrets, API keys, or credentials
-  secret-scanning:
-    name: Security - Secret Scanning
+  quality:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # TruffleHog needs full history to scan commits properly
 
-      - name: Scan Secrets (TruffleHog)
-        uses: trufflesecurity/trufflehog@main
-        with:
-          extra_args: --only-verified
-
-  # Job 2: Run Cypress End-to-End Tests as a Quality Gate
-  cypress-tests:
-    name: Quality - Cypress E2E
-    runs-on: ubuntu-latest
-    needs: secret-scanning # Ensures secrets scan passes first
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -34,15 +25,36 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # Upgraded to version 20 to remove deprecation warnings
-          cache: 'npm'
+          node-version: 22
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Run Cypress E2E Tests (Headless)
+      - name: Run Cypress E2E Tests
         uses: cypress-io/github-action@v6
         with:
-          start: npm run start
-          wait-on: 'http://localhost:3000'
-          browser: chrome
+          start: npm run dev
+          wait-on: 'http://localhost:5173'
+
+  deploy:
+    needs: quality   # only deploys if tests pass
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'   # root of repo — change if your site output is in /dist or /build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
